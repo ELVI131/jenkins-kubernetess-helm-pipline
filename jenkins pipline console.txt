@@ -1,0 +1,71 @@
+Started by user Jenkins Admin
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Still waiting to schedule task
+Waiting for next available executor
+Agent default-nfwd0 is provisioned from template default
+---
+apiVersion: "v1"
+kind: "Pod"
+metadata:
+  labels:
+    jenkins/label-digest: "0947566fc56f449d10e55c6c8dc3476d8a48731c"
+    jenkins/myjenkins-jenkins-agent: "true"
+    jenkins/label: "myjenkins-jenkins-agent"
+  name: "default-nfwd0"
+  namespace: "default"
+spec:
+  containers:
+  - args:
+    - "********"
+    - "default-nfwd0"
+    env:
+    - name: "JENKINS_SECRET"
+      value: "********"
+    - name: "JENKINS_TUNNEL"
+      value: "myjenkins-agent.default.svc.cluster.local:50000"
+    - name: "JENKINS_AGENT_NAME"
+      value: "default-nfwd0"
+    - name: "JENKINS_NAME"
+      value: "default-nfwd0"
+    - name: "JENKINS_AGENT_WORKDIR"
+      value: "/home/jenkins/agent"
+    - name: "JENKINS_URL"
+      value: "http://myjenkins.default.svc.cluster.local:8080/"
+    image: "jenkins/inbound-agent:4.11.2-4"
+    imagePullPolicy: "IfNotPresent"
+    name: "jnlp"
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "512m"
+      requests:
+        memory: "512Mi"
+        cpu: "512m"
+    tty: false
+    volumeMounts:
+    - mountPath: "/home/jenkins/agent"
+      name: "workspace-volume"
+      readOnly: false
+    workingDir: "/home/jenkins/agent"
+  nodeSelector:
+    kubernetes.io/os: "linux"
+  restartPolicy: "Never"
+  serviceAccountName: "default"
+  volumes:
+  - emptyDir:
+      medium: ""
+    name: "workspace-volume"
+
+Running on default-nfwd0 in /home/jenkins/agent/workspace/Jenkins hello
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Hello)
+[Pipeline] echo
+Hello World
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
